@@ -6,7 +6,13 @@ casper.then ->
     @test.assertExists "textarea#code", "textarea for code is there"
 
 casper.then ->
-    @sendKeys '//*[@id="dummybodyid"]/div[1]/div[6]', "ciao belli"
+    @evaluate ->
+        window.editor.setValue "sticazzi"
     @capture "codelab2.png"
 
+casper.then ->
+    @test.assertEqual "sticazzi",
+                        (@evaluate -> 
+                            window.editor.getValue()),
+                          "sticazzi is sticazzi"
 casper.run()
