@@ -2,6 +2,7 @@
   "name": "codelab2",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "~1.0.7"
+    "angular": "~1.0.7",
+    "codemirror": "~3.13.0"
   }
 }

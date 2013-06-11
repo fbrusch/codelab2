@@ -12,6 +12,8 @@
   "dependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-coffee": "~0.7.0",
-    "grunt-contrib-less": "~0.5.2"
+    "grunt-contrib-less": "~0.5.2",
+    "express": "~3.2.6",
+    "winston": "~0.7.1"
   }
 }

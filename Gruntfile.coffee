@@ -30,4 +30,7 @@ module.exports = (grunt) ->
     
     grunt.registerTask "build", ["jade", "coffee", "less"]
     grunt.registerTask "default", ["build"]
+    grunt.registerTask "server", "Runs the server", ->
+        app = require "./server"
+        app.listen(8081)
 

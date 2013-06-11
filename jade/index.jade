@@ -1,9 +1,18 @@
 !!!html5
 head
+    //-script(src="components/ui-codemirror/ui-codemirror.js")
+    script(src="components/codemirror/lib/codemirror.js")
     script(src="components/angular/angular.js")
     script(src="index.js")
+    link(rel="stylesheet",href="components/codemirror/lib/codemirror.css")
     link(rel="stylesheet",href="style.css")
-body(ng-app="codelab2")
+body(ng-app="codelab2",ng-controller="mainController")
     h1 Welcome to Codelab2
     p 1+1={{1+1}}
-    cl-welcome
+    div#container
+        div#code.section
+            textarea#code(codemirror,editor="editor",ng-model="x")
+        div#console.section
+
+    //-textarea#code
+
