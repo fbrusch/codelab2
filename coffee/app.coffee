@@ -2,10 +2,16 @@ app = angular.module "codelab2", []
 
 
 app.directive "codemirror", ->
+    scope:
+        ngModel: "="
     link: (scope, element, attrs) ->
         defaultOpts = 
             lineNumbers: true
-        window[attrs.editor] = CodeMirror.fromTextArea element[0], defaultOpts
+        editor = CodeMirror.fromTextArea element[0], defaultOpts
+        editor.on "change", ->
+            scope.ngModel = editor.getValue()
+            if not scope.$$phase then scope.$apply()
+        window[attrs.editor] = editor
 
 app.controller "mainController", ($scope) ->
     $scope.editorOptions =

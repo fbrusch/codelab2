@@ -8,11 +8,12 @@ head
     link(rel="stylesheet",href="style.css")
 body(ng-app="codelab2",ng-controller="mainController")
     h1 Welcome to Codelab2
-    p 1+1={{1+1}}
+    p {{x}}
     div#container
         div#code.section
             textarea#code(codemirror,editor="editor",ng-model="x")
         div#console.section
+            p so what?{{x}}
 
     //-textarea#code
 
