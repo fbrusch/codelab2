@@ -8,11 +8,16 @@ casper.then ->
 casper.then ->
     @evaluate ->
         window.editor.setValue "sticazzi"
-    @capture "codelab2.png"
 
 casper.then ->
     @test.assertEqual "sticazzi",
                         (@evaluate -> 
                             window.editor.getValue()),
-                          "sticazzi is sticazzi"
+                          "code editor is there and writable"
+
+casper.then ->
+    @test.assertExists "button#submit", "submit button is there"
+
+casper.then ->
+
 casper.run()
