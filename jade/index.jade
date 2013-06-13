@@ -13,6 +13,8 @@ body(ng-app="codelab2",ng-controller="mainController")
         div#code.section
             textarea#code(codemirror,editor="editor",ng-model="x")
         div#console.section
+            textarea#console(codemirror,editor="codeConsole",ng-model="codeConsole")
+    button#submit(onclick="window.execFinished = true")
 
     //-textarea#code
 
