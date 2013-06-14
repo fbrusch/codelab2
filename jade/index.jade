@@ -8,13 +8,12 @@ head
     link(rel="stylesheet",href="style.css")
 body(ng-app="codelab2",ng-controller="mainController")
     h1 Welcome to Codelab2
-    p {{x}}
     div#container
         div#code.section
             textarea#code(codemirror,editor="editor",ng-model="x")
         div#console.section
-            textarea#console(codemirror,editor="codeConsole",ng-model="codeConsole")
-    button#submit(onclick="window.execFinished = true")
+            textarea#console(codemirror="console",editor="codeConsole",ng-model="x")
+    button#submit.submit(onclick="alert('you clicked me you weirdo!')") Submit
 
     //-textarea#code
 

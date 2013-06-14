@@ -25,13 +25,12 @@ casper.then ->
     @evaluate ->
         window.editor.setValue "#include <stdio.h>\nint main(){printf (\"hello world!\\n\");}"
     @click "button#submit"
-    @waitFor ->
-        @evaluate ->
-            return window.execFinished == true
-        -> #then
-            result = @evaluate ->
-                return window.codeConsole.getValue()
-            @test.assertEqual "hello world!", result
-        -> #ontimeout
-            @test.error "Execution timed out"
+    @waitFor (->
+                @evaluate -> return window.execFinished == true),
+            (-> #then
+                result = @evaluate ->
+                    return window.codeConsole.getValue()
+                @test.assertEqual "hello world!", result),
+            (-> #ontimeout
+                @test.error "Execution timed out")
 casper.run()
