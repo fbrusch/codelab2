@@ -12,8 +12,12 @@ body(ng-app="codelab2",ng-controller="mainController")
         div#code.section
             textarea#code(codemirror,editor="editor",ng-model="x")
         div#console.section
-            textarea#console(codemirror="console",editor="codeConsole",ng-model="x")
-    button#submit.submit(onclick="alert('you clicked me you weirdo!')") Submit
+            result-widget(f="f",render="render")
+    textarea#console(codemirror="console",editor="codeConsole",ng-model="log")
+    button#submit.submit(ng-click='generateFunction()') Compile
+    button.submit(ng-click='emitops()') Render
+    result-widget(f="f",render="render")
+
 
     //-textarea#code
 
