@@ -3,8 +3,12 @@ browserChannel = require("browserchannel").server
 expressWinston = require "express-winston"
 winston = require "winston"
 routes = require "./routes"
+webCompiler = require('./server_modules/c-compile').webCompiler
+
 
 app = express()
+app.use(express.methodOverride())
+wbc = new webCompiler(app)
 
 logger = expressWinston.logger(
     transports:[
@@ -44,6 +48,8 @@ app.use (browserChannel (session) ->
     session.on "close", (reason) ->
         console.log "#{session.id} disconnected because #{reason}"
 )
+
+
 
 module.exports = app
 

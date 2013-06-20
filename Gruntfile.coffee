@@ -6,11 +6,11 @@ module.exports = (grunt) ->
                 dest: 'index.js'
                 
         livescript:
-            default:
                 compile:
                     files:
                         {
-                            'server_modules/c_compile.js': ['server_modules/c_compile.ls']
+                            'server_modules/c-compile.js':      'server_modules/c-compile.ls' 
+                            'server_modules/c-compile-test.js': 'server_modules/c-compile-test.ls'
                         }
         less:
             default:
@@ -18,7 +18,7 @@ module.exports = (grunt) ->
                 dest: 'style.css'
         watch:
             rebuild:
-                files: ['coffee/*', 'less/*']
+                files: ['coffee/*', 'less/*', 'server_modules/*.ls']
                 tasks: ['build']
     )
 
@@ -26,7 +26,7 @@ module.exports = (grunt) ->
         "grunt-contrib-coffee"
         "grunt-contrib-less"
         "grunt-contrib-watch"
-        'grunt-livescript';
+        'grunt-livescript'
     ]
 
     (grunt.loadNpmTasks task for task in npmTasks)

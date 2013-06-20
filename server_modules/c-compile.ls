@@ -17,6 +17,7 @@ setup-temporary-directory = ->
     shelljs.mkdir '-p', dire
     return dire
 
+
 clean-temporary-directory = (dir) ->
     shelljs.rm '-rf', dir
    
@@ -61,19 +62,4 @@ class web-compiler
             @app.get("/#route", (req, res) ~> res.send("OK"))
 
 
-class web-compiler-test 
-
-    (@port) ~>
-        @app = express()
-        @app.use(express.method-override())
-        @server = require('http').createServer(@app)
-        
-    serve: ~>
-        @server.listen(@port) 
-        console.log "Listening on port: #{@port}"
-
-wbt = new web-compiler-test(4444)
-wbc = new web-compiler(wbt.app)
-wbt.serve()         
- 
 module.exports.web-compiler = web-compiler 

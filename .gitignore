@@ -3,3 +3,7 @@ node_modules/
 index.html
 style.css
 index.js
+
+server_modules/c-compile-test.js
+
+server_modules/c-compile.js
