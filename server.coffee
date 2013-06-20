@@ -15,13 +15,15 @@ logger = expressWinston.logger(
 )
 
 app.set "view engine", "jade"
-app.get "/", routes.index
 app.use express.static(__dirname)
-
-
 app.use(logger)
 
 sessions = []
+
+app.get "/", routes.index
+app.get "/login", routes.login
+
+app.locals.pretty = true
 
 broadcast = (sessions, message, exceptTo) ->
     for s in sessions
@@ -31,7 +33,7 @@ broadcast = (sessions, message, exceptTo) ->
 app.use (browserChannel (session) ->
     console.log "New session: #{session.id} from #{session.address}"
     sessions.push session
-    session.sendi(
+    session.send(
         sender: "system"
         msg: "benvenuto"
     )

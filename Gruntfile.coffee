@@ -1,10 +1,5 @@
 module.exports = (grunt) ->
     grunt.initConfig(
-        jade:
-            default:
-                src: 'jade/*.jade'
-                dest: 'index.html'
-                pretty: yes
         coffee:
             default:
                 src: 'coffee/*.coffee'
@@ -15,12 +10,11 @@ module.exports = (grunt) ->
                 dest: 'style.css'
         watch:
             rebuild:
-                files: ['jade/*', 'coffee/*', 'less/*']
+                files: ['coffee/*', 'less/*']
                 tasks: ['build']
     )
 
     npmTasks = [
-        "grunt-contrib-jade"
         "grunt-contrib-coffee"
         "grunt-contrib-less"
         "grunt-contrib-watch"
@@ -28,8 +22,8 @@ module.exports = (grunt) ->
 
     (grunt.loadNpmTasks task for task in npmTasks)
     
-    grunt.registerTask "build", ["jade", "coffee", "less"]
-    grunt.registerTask "default", ["build"]
+    grunt.registerTask "build", ["coffee", "less"]
+    grunt.registerTask "default", ["build", "server", "watch"]
     grunt.registerTask "server", "Runs the server", ->
         app = require "./server"
         app.listen(8081)
