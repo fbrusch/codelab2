@@ -3,7 +3,8 @@ browserChannel = require("browserchannel").server
 expressWinston = require "express-winston"
 winston = require "winston"
 routes = require "./routes"
-
+passport = require "passport"
+LocalStrategy = require("passport-local").Strategy
 app = express()
 
 logger = expressWinston.logger(
@@ -14,15 +15,27 @@ logger = expressWinston.logger(
     ]
 )
 
-app.set "view engine", "jade"
-app.use express.static(__dirname)
-app.use(logger)
+#passport.use (new LocalStrategy (username, password, done) ->
+    #console.log "authenticating #{username}"
+    #done null, {username:username}
+#)
+
+app.configure ->
+    app.set "view engine", "jade"
+    app.use passport.initialize()
+    app.use express.cookieParser()
+    app.use express.session 
+        secret: "segreto"
+    app.use passport.session()
+    #app.use express.router()
+    app.use express.static(__dirname)
+    app.use(logger)
 
 sessions = []
 
 app.get "/", routes.index
 app.get "/login", routes.login
-
+app.post "/auth/local", routes.auth.local
 app.locals.pretty = true
 
 broadcast = (sessions, message, exceptTo) ->

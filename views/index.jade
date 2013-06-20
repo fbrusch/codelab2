@@ -1,22 +1,22 @@
 extends layout
 block body
     .container
-    .row
-        .span2(style="background-color:lightgreen")
-        .span8
-            .row
-                .span6#code
-                    code-editor#code(ng-model="x")
-                .span2
-                    result-widget(f="f",render="render")
+        .row
+            .span2
+            .span8
+                .row
+                    .span6#code
+                        code-editor#code(ng-model="x")
+                    .span2
+                        result-widget(f="f",render="render")
 
-            .row#console
-                log-console
-            .row
-                .btn-group
-                    button.btn(ng-click="f = compile(x);") Compile
-                    button.btn(ng-click='$broadcast("render")') Render
-        .span2
-            div(style="border-left: 1px solid black; height:100%; padding-left:2em")
-                h2 Messages
-                channel-list
+                .row#console
+                    log-console
+                .row
+                    .btn-group
+                        button.btn(ng-click="f = compile(x);") Compile
+                        button.btn(ng-click='$broadcast("render")') Render
+            .span2
+                div(style="border-left: 1px solid black; height:100%; padding-left:2em")
+                    h2 Messages
+                    channel-list

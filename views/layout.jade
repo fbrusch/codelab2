@@ -8,17 +8,22 @@ html
         link(rel="stylesheet",href="style.css")
 
         //Bootstrap
-        link(rel="stylesheet",href="components/bootstrap/css/bootstrap.css")
+        link(rel="stylesheet",href="components/bootstrap/docs/assets/css/bootstrap.css")
         //-script(src="components/bootstrap/js/bootstrap.js")
         script(src="node_modules/browserchannel/dist/bcsocket.js")
 
         //BrowserChannel
         script(src="node_modules/browserchannel/dist/bcsocket.js")
+        style 
+            body {padding-top: 80px}
     body(ng-app="codelab2",ng-controller="mainController")
-        .topbar-wrapper
-            .topbar
-                .topbar-inner
-                    .container
-                        h3 Codelab2
+        .navbar-fixed-top
+            .navbar-inner
+                .container
+                    ul.nav
+                        li
+                            h3  
+                                a(href="/") Codelab2
+
 
     block body

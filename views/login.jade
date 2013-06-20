@@ -1,5 +1,13 @@
 extends layout
 block body
-    form(action="/auth")
-        input(name="name") Nome
-        input(name="password") Password
+    .container
+        .row
+            .span2
+            .span8
+
+                form(method="post",action="/auth/local")
+                        label Nome
+                        input(name="username") Nome
+                        label Password
+                        input(name="password")
+                        input.btn(type="submit")

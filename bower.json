@@ -1,0 +1,10 @@
+{
+  "name": "codelab2",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "~1.0.7",
+    "codemirror": "~3.13.0",
+    "bootstrap": "~2.3.2",
+    "closure-library": "http://code.google.com/p/closure-library"
+  }
+}
