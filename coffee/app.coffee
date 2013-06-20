@@ -1,57 +1,104 @@
 app = angular.module "codelab2", []
 
-app.directive "codemirror", ->
+app.service "channel", ($rootScope) ->
+    alert "channel service activated..."
+    scope = $rootScope.$new()
+    socket = new BCSocket '/channel'
+    socket.onopen = -> 
+        console.log "channel opened"
+    socket.onmessage = (message) ->
+        scope.$broadcast "message", message
+    return {
+        scope: -> scope
+    }
+
+app.directive "channelList", (channel) ->
+    restrict: "E"
+    template: "<ul></ul>"
+    replace: yes
+    scope: yes
+    link: (scope, element, attrs) ->
+        channelScope = channel.scope()
+        channelScope.$on "message", (event, args)->
+            element.append("<li>"+JSON.stringify(args)+"</li>")
+
+app.directive "codeEditor", (appConsole) ->
+    restrict: 'E'
     scope:
         ngModel: "="
+    template: "<textarea></textarea>"
+    replace: yes
     link: (scope, element, attrs) ->
         defaultOpts =
-            "codemirror":
                 lineNumbers: true
-                value: "not console"
-            "console":
-                readOnly: true
-                value: "console"
-        editor = CodeMirror.fromTextArea element[0], defaultOpts[attrs.codemirror]
-        if not (attrs.codemirror == "console")
-            editor.on "change", ->
-                scope.ngModel = editor.getValue()
-                if not scope.$$phase then scope.$apply()
+        editor = CodeMirror.fromTextArea element[0], defaultOpts
+        editor.on "change", ->
+            scope.ngModel = editor.getValue()
+            if not scope.$$phase then scope.$apply()
 
-        if attrs.codemirror == "console"
-            scope.$watch "ngModel", (value) -> 
-                editor.setValue value
-                editor.setCursor editor.lineCount()
+app.directive "logConsole", (appConsole, $compile) ->
+    scope: true
+    restrict: 'E'
+    template: "<textarea></textarea>"
+    replace: true
+    link: (scope, element, attrs) ->
+        opts =
+            readOnly: true
+        editor = CodeMirror.fromTextArea element[0], opts
+        logScope = appConsole.scope()
+        logScope.$on "newMsg", ->
+            editor.setValue appConsole.getLogText()
+            editor.setCursor editor.lineCount()
 
-        window[attrs.editor] = editor
-
-app.service "funcGen", ->
+app.service "funcGen", (appConsole)->
     generate: (str) ->
         return new Function("param",str)
 
+app.directive "functionGenerate", (funcGen, appConsole) ->
+    scope:
+        f: '='
+        source: "="
+    link: (scope, element, attrs) ->
+        scope.compile = ->
+            alert "compiling..."
+            scope.functionGenerate = funcGen.generate scope.x
+            appConsole.log "Compiling function..."
+    controller: ($scope) ->
+        $scope.compile = -> alert "compiling in the directive!!"
+
+app.service "appConsole", ($rootScope) ->
+    logScope = $rootScope.$new()
+    logText = ""
+    return {
+        scope: -> logScope
+        log: (msg) ->
+            logText += msg + "\n"
+            logScope.$broadcast "newMsg"
+        getLogText: -> logText
+    }
 
 app.directive "resultWidget", ($compile) ->
     restrict: "E"
     scope:
         f: "="
-    template: "<p> Value: {{result.value}}, Message: {{result.message}}</p>"
+    template: """
+    <table>
+        <tr ng-repeat="i in result">
+            <td>{{$index}}</td>
+            <td>{{i}}</td>
+        </tr>
+    </table>"""
     link: (scope, element, attrs) ->
         scope.result = {}
         scope.$on attrs.render, -> 
-            alert "rendering"
-            scope.result.value = scope.f(10)
-        #$compile(element)(scope)
-        
-app.controller "mainController", ($scope, funcGen) ->
-    $scope.f = -> {value:45, message:"asd"}
+            scope.result = (scope.f(x) for x in [1..10])
+
+app.controller "mainController", ($scope, $rootScope, funcGen) ->
+
     $scope.generateFunction = ->
         $scope.f = funcGen.generate $scope.x
-        alert "function generated"
-    $scope.emitops = ->
-        alert "emitting ops"
-        $scope.$broadcast "render"
-    $scope.cisei = "ci sono"
-    $scope.res =
-        value: 10
-        message: "fottiti"
     $scope.x = ""
+    $scope.compile = (x) ->
+        funcGen.generate x
+
 

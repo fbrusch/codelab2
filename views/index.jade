@@ -1,0 +1,24 @@
+extends layout
+block body
+    body(ng-app="codelab2",ng-controller="mainController")
+        div.container
+        div.row
+            div.span2(style="background-color:lightgreen")
+            div.span8
+                h1 Welcome to Codelab2
+                div.row
+                    div.span6#code
+                        code-editor#code(ng-model="x")
+                    div.span2
+                        result-widget(f="f",render="render")
+
+                div.row#console
+                    log-console
+                div.row
+                    div.btn-group
+                        button.btn(ng-click="f = compile(x);") Compile
+                        button.btn(ng-click='$broadcast("render")') Render
+            div.span2
+                div(style="border-left: 1px solid black; height:100%; padding-left:2em")
+                    h2 Messages
+                    channel-list

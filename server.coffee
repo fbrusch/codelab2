@@ -1,6 +1,8 @@
 express = require "express"
+browserChannel = require("browserchannel").server
 expressWinston = require "express-winston"
 winston = require "winston"
+routes = require "./routes"
 
 app = express()
 
@@ -12,9 +14,34 @@ logger = expressWinston.logger(
     ]
 )
 
-app.use logger
-
+app.set "view engine", "jade"
+app.get "/", routes.index
 app.use express.static(__dirname)
+
+
+app.use(logger)
+
+sessions = []
+
+broadcast = (sessions, message, exceptTo) ->
+    for s in sessions
+        if exceptTo.indexOf(s.id) == -1
+            s.send message
+
+app.use (browserChannel (session) ->
+    console.log "New session: #{session.id} from #{session.address}"
+    sessions.push session
+    session.sendi(
+        sender: "system"
+        msg: "benvenuto"
+    )
+    broadcast sessions, {msg: "nuovo arrivato"}, [session.id]
+    session.on "message", (data) ->
+        console.log "#{session.id} sent #{JSON.stringify(data)}"
+
+    session.on "close", (reason) ->
+        console.log "#{session.id} disconnected because #{reason}"
+)
 
 module.exports = app
 
