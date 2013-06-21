@@ -21,6 +21,10 @@
     "browserchannel": "~1.0.4",
     "passport": "~0.1.17",
     "jade": "~0.31.2",
-    "shelljs": "~0.1.4"
+    "shelljs": "~0.1.4",
+    "moment": "~2.0.0",
+    "jQuery": "~1.7.4",
+    "grunt-livescript": "~0.5.0",
+    "LiveScript": "~1.1.1"
   }
 }

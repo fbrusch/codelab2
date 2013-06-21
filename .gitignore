@@ -7,3 +7,5 @@ index.js
 server_modules/c-compile-test.js
 
 server_modules/c-compile.js
+
+npm-debug.log
